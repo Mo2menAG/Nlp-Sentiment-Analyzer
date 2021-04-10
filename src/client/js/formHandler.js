@@ -6,7 +6,7 @@ function handleSubmit(event) {
 
     if(Client.checkForURL(formURL)) {
 
-    post('http://localhost:8080/url', {url: formURL})
+    post({url: formURL})
     .then(function(res) {
       document.getElementById("subjectivity").innerHTML = `Subjectivity: ${res.subjectivity}`;
       document.getElementById("confidence").innerHTML = `Confidence: ${res.confidence}`;
@@ -16,14 +16,14 @@ function handleSubmit(event) {
 
     })
     } else {
-        alert('Seems like an invalid URL, please try again with a valid URL.');
+        alert('Invalid URL, please try again.');
     }
 }
 
 
 
-const post = async (url = "", data = {}) => {
-    const response = await fetch(url, {
+const post = async ( data = {}) => {
+    const response = await fetch('http://localhost:8080/url', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
