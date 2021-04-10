@@ -8,12 +8,13 @@ function handleSubmit(event) {
 
     post({url: formURL})
     .then(function(res) {
+      console.log("show data");
       document.getElementById("subjectivity").innerHTML = `Subjectivity: ${res.subjectivity}`;
       document.getElementById("confidence").innerHTML = `Confidence: ${res.confidence}`;
       document.getElementById("irony").innerHTML = `Irony: ${res.irony}`;
       document.getElementById('polarity').innerHTML = 'Polarity: '+ Client.polarityChecker(res.score_tag);
       document.getElementById("agreement").innerHTML = `Agreement: ${res.agreement}`;
-
+      console.log("done");
     })
     } else {
         alert('Invalid URL, please try again.');
@@ -23,6 +24,7 @@ function handleSubmit(event) {
 
 
 const post = async ( data = {}) => {
+  console.log("form submited");
     const response = await fetch('http://localhost:8080/url', {
         method: 'POST',
         headers: {
