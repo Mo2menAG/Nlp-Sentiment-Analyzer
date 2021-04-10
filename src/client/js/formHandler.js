@@ -21,8 +21,6 @@ function handleSubmit(event) {
     }
 }
 
-
-
 const post = async ( data = {}) => {
   console.log("form submited");
     const response = await fetch('http://localhost:8080/url', {
