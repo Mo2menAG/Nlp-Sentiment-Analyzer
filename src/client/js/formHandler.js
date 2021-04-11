@@ -4,41 +4,32 @@ function handleSubmit(event) {
     // check what text was put into the form field
     let formURL = document.getElementById('form-url').value
 
-    if(Client.checkForURL(formURL)) {
+    if( Client.checkForURL(formURL) === 1 ) {
 
+      const post = async ( data = {}) => {
+        console.log("form submited");
+          const response = await fetch('http://localhost:8080/url', {
+              method: 'POST',
+              headers: {
+              'Content-Type': 'application/json',
+              },
+              credentials: 'same-origin',
+              mode: 'cors',
+              body: JSON.stringify(data)
+          });
+          try {
+              const data = await response.json();
+              document.querySelector("#subjectivity").innerHTML = "Subjectivity: " + data.subjectivity;
+              document.querySelector("#confidence").innerHTML = "Confidence: "  + data.confidence;
+              document.querySelector("#irony").innerHTML = "Irony: " + data.irony;
+              document.querySelector('#polarity').innerHTML = "Polarity: " + Client.polarityChecker(data.score_tag);
+              document.querySelector("#agreement").innerHTML = "Agreement: " + data.agreement;
+          } catch (error) {
+              console.log('error', error);
+          }
+      };
     post({url: formURL})
-    .then(function(res) {
-      console.log("show data");
-      document.getElementById("subjectivity").innerHTML = `Subjectivity: ${res.subjectivity}`;
-      document.getElementById("confidence").innerHTML = `Confidence: ${res.confidence}`;
-      document.getElementById("irony").innerHTML = `Irony: ${res.irony}`;
-      document.getElementById('polarity').innerHTML = 'Polarity: '+ Client.polarityChecker(res.score_tag);
-      document.getElementById("agreement").innerHTML = `Agreement: ${res.agreement}`;
-      console.log("done");
-    })
-    } else {
-        alert('Invalid URL, please try again.');
     }
 }
-
-const post = async ( data = {}) => {
-  console.log("form submited");
-    const response = await fetch('http://localhost:8080/url', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        credentials: 'same-origin',
-        mode: 'cors',
-        body: JSON.stringify(data)
-    });
-    try {
-        return await response.json();
-    } catch (error) {
-        console.log('error', error);
-    }
-};
-
-
 
 export { handleSubmit }
