@@ -17,16 +17,14 @@ function handleSubmit(event) {
               mode: 'cors',
               body: JSON.stringify(data)
           });
-          try {
-              const data = await response.json();
-              document.querySelector("#subjectivity").innerHTML = "Subjectivity: " + data.subjectivity;
-              document.querySelector("#confidence").innerHTML = "Confidence: "  + data.confidence;
-              document.querySelector("#irony").innerHTML = "Irony: " + data.irony;
-              document.querySelector('#polarity').innerHTML = "Polarity: " + Client.polarityChecker(data.score_tag);
-              document.querySelector("#agreement").innerHTML = "Agreement: " + data.agreement;
-          } catch (error) {
-              console.log('error', error);
-          }
+
+          const json = await response.json();
+          document.querySelector("#subjectivity").innerHTML = "Subjectivity: " + json.subjectivity;
+          document.querySelector("#confidence").innerHTML = "Confidence: "  + json.confidence;
+          document.querySelector("#irony").innerHTML = "Irony: " + json.irony;
+          document.querySelector('#polarity').innerHTML = "Polarity: " + Client.polarityChecker(json.score_tag);
+          document.querySelector("#agreement").innerHTML = "Agreement: " + json.agreement;
+
       };
     post({url: formURL})
     }
